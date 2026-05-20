@@ -7,7 +7,7 @@ Endpoints:
   GET /sap/sales-orders             - Returns the complete stub JSON file
   GET /sap/sales-order/<order_id>   - Returns the matching stub sales order
   GET /sap/customer/<customer_id>   - Returns stub customer data
-  GET /sap/material/<material_id>   - Returns stub material data
+  GET /sap/material/<material_id>   - Returns stub material data (from stub JSON)
   GET /sap/error/not-found          - Always returns 404 (for error-handling tests)
 
 Usage:
@@ -28,6 +28,19 @@ STUB_DATA_PATH = os.path.join(os.path.dirname(__file__), 'sap_sales_order_stub.j
 
 with open(STUB_DATA_PATH) as f:
     STUB_DATA = json.load(f)
+
+# Build a flat material lookup from all positionen across all orders
+# keyed by matnr — so /sap/material/<matnr> returns real stub data
+MATERIAL_INDEX: dict = {}
+for order in STUB_DATA.values():
+    for pos in order["sales_order"]["positionen"]:
+        matnr = pos["matnr"]
+        if matnr not in MATERIAL_INDEX:
+            MATERIAL_INDEX[matnr] = {
+                "matnr": matnr,
+                "maktx": pos["maktx"],
+                "meins": pos["meins"],
+            }
 
 
 @app.route('/sap/sales-order/<order_id>', methods=['GET'])
@@ -60,10 +73,14 @@ def get_customer(customer_id):
 
 @app.route('/sap/material/<material_id>', methods=['GET'])
 def get_material(material_id):
+    """Return material data from the stub index; fall back to a safe default."""
+    if material_id in MATERIAL_INDEX:
+        return jsonify(MATERIAL_INDEX[material_id]), 200
+    # Fallback — unknown matnr, still return a valid shape so Odoo doesn't crash
     return jsonify({
         "matnr": material_id,
-        "maktx": "Test Product",
-        "meins": "PCS"
+        "maktx": "Unknown Product",
+        "meins": "PCS",
     }), 200
 
 
@@ -79,5 +96,9 @@ if __name__ == '__main__':
     print("Available orders:")
     for vbeln in STUB_DATA:
         print(f"  curl http://localhost:5000/sap/sales-order/{vbeln}")
+    print("-" * 50)
+    print("Available materials:")
+    for matnr, mat in MATERIAL_INDEX.items():
+        print(f"  curl http://localhost:5000/sap/material/{matnr}  -> {mat['maktx']}")
     print("=" * 50)
     app.run(port=5000, debug=True)
