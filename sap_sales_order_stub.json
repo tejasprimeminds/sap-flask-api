@@ -7,8 +7,22 @@
       "netwr": "62000.00",
       "erdat": "2026-05-15",
       "positionen": [
-        { "posixn": "000010", "maktx": "AC", "kwmeng": "1.000", "netpr": "58000.00", "meins": "PCS" },
-        { "posixn": "000020", "maktx": "Installation Service", "kwmeng": "1.000", "netpr": "4000.00", "meins": "AU" }
+        {
+          "posixn": "000010",
+          "matnr": "AC01",
+          "maktx": "AC",
+          "kwmeng": "1.000",
+          "netpr": "58000.00",
+          "meins": "PCS"
+        },
+        {
+          "posixn": "000020",
+          "matnr": "IS01",
+          "maktx": "Installation Service",
+          "kwmeng": "1.000",
+          "netpr": "4000.00",
+          "meins": "AU"
+        }
       ]
     }
   },
@@ -20,8 +34,22 @@
       "netwr": "48000.00",
       "erdat": "2026-05-16",
       "positionen": [
-        { "posixn": "000010", "maktx": "AC", "kwmeng": "1.000", "netpr": "45000.00", "meins": "PCS" },
-        { "posixn": "000020", "maktx": "Installation Service", "kwmeng": "1.000", "netpr": "3000.00", "meins": "AU" }
+        {
+          "posixn": "000010",
+          "matnr": "AC01",
+          "maktx": "AC",
+          "kwmeng": "1.000",
+          "netpr": "45000.00",
+          "meins": "PCS"
+        },
+        {
+          "posixn": "000020",
+          "matnr": "IS01",
+          "maktx": "Installation Service",
+          "kwmeng": "1.000",
+          "netpr": "3000.00",
+          "meins": "AU"
+        }
       ]
     }
   },
@@ -33,8 +61,22 @@
       "netwr": "125000.00",
       "erdat": "2026-05-17",
       "positionen": [
-        { "posixn": "000010", "maktx": "AC", "kwmeng": "2.000", "netpr": "120000.00", "meins": "PCS" },
-        { "posixn": "000020", "maktx": "Installation Service", "kwmeng": "1.000", "netpr": "5000.00", "meins": "AU" }
+        {
+          "posixn": "000010",
+          "matnr": "AC01",
+          "maktx": "AC",
+          "kwmeng": "2.000",
+          "netpr": "120000.00",
+          "meins": "PCS"
+        },
+        {
+          "posixn": "000020",
+          "matnr": "IS01",
+          "maktx": "Installation Service",
+          "kwmeng": "1.000",
+          "netpr": "5000.00",
+          "meins": "AU"
+        }
       ]
     }
   },
@@ -46,8 +88,22 @@
       "netwr": "72000.00",
       "erdat": "2026-05-18",
       "positionen": [
-        { "posixn": "000010", "maktx": "AC", "kwmeng": "1.000", "netpr": "68000.00", "meins": "PCS" },
-        { "posixn": "000020", "maktx": "Installation Service", "kwmeng": "1.000", "netpr": "4000.00", "meins": "AU" }
+        {
+          "posixn": "000010",
+          "matnr": "AC01",
+          "maktx": "AC",
+          "kwmeng": "1.000",
+          "netpr": "68000.00",
+          "meins": "PCS"
+        },
+        {
+          "posixn": "000020",
+          "matnr": "IS01",
+          "maktx": "Installation Service",
+          "kwmeng": "1.000",
+          "netpr": "4000.00",
+          "meins": "AU"
+        }
       ]
     }
   },
@@ -59,8 +115,22 @@
       "netwr": "98000.00",
       "erdat": "2026-05-19",
       "positionen": [
-        { "posixn": "000010", "maktx": "AC", "kwmeng": "1.000", "netpr": "92000.00", "meins": "PCS" },
-        { "posixn": "000020", "maktx": "Installation Service", "kwmeng": "1.000", "netpr": "6000.00", "meins": "AU" }
+        {
+          "posixn": "000010",
+          "matnr": "AC01",
+          "maktx": "AC",
+          "kwmeng": "1.000",
+          "netpr": "92000.00",
+          "meins": "PCS"
+        },
+        {
+          "posixn": "000020",
+          "matnr": "IS01",
+          "maktx": "Installation Service",
+          "kwmeng": "1.000",
+          "netpr": "6000.00",
+          "meins": "AU"
+        }
       ]
     }
   }
