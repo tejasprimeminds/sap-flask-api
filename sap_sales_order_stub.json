@@ -1,0 +1,38 @@
+{
+  "0000001258": {
+    "sales_order": {
+      "vbeln": "0000001258",
+      "kunnr": "100045",
+      "netwr": "1500.00",
+      "erdat": "2026-05-15",
+      "positionen": [
+        { "posixn": "000010", "matnr": "A0001", "kwmeng": "2.000", "netpr": "500.00",  "meins": "PCS" },
+        { "posixn": "000020", "matnr": "B0002", "kwmeng": "1.000", "netpr": "1000.00", "meins": "PCS" }
+      ]
+    }
+  },
+  "0000001259": {
+    "sales_order": {
+      "vbeln": "0000001259",
+      "kunnr": "100046",
+      "netwr": "750.00",
+      "erdat": "2026-05-15",
+      "positionen": [
+        { "posixn": "000010", "matnr": "C0003", "kwmeng": "3.000", "netpr": "150.00", "meins": "PCS" },
+        { "posixn": "000020", "matnr": "D0004", "kwmeng": "2.000", "netpr": "150.00", "meins": "PCS" }
+      ]
+    }
+  },
+  "0000001260": {
+    "sales_order": {
+      "vbeln": "0000001260",
+      "kunnr": "100047",
+      "netwr": "3200.00",
+      "erdat": "2026-05-15",
+      "positionen": [
+        { "posixn": "000010", "matnr": "E0005", "kwmeng": "4.000", "netpr": "500.00", "meins": "PCS" },
+        { "posixn": "000020", "matnr": "F0006", "kwmeng": "2.000", "netpr": "600.00", "meins": "PCS" }
+      ]
+    }
+  }
+}
