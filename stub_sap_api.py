@@ -7,14 +7,14 @@ Endpoints:
   GET /sap/sales-orders             - Returns the complete stub JSON file
   GET /sap/sales-order/<order_id>   - Returns the matching stub sales order
   GET /sap/customer/<customer_id>   - Returns stub customer data
-  GET /sap/material/<material_id>   - Returns stub material data (from stub JSON)
+  GET /sap/material/<material_name> - Returns stub material data (keyed by maktx)
   GET /sap/error/not-found          - Always returns 404 (for error-handling tests)
 
 Usage:
   python stub_sap_api.py
   curl http://localhost:5000/sap/sales-order/0000001258
-  curl http://localhost:5000/sap/sales-order/0000001259
-  curl http://localhost:5000/sap/sales-order/0000001260
+  curl "http://localhost:5000/sap/material/AC"
+  curl "http://localhost:5000/sap/material/Installation%20Service"
 """
 
 from flask import Flask, jsonify
@@ -29,26 +29,24 @@ STUB_DATA_PATH = os.path.join(os.path.dirname(__file__), 'sap_sales_order_stub.j
 with open(STUB_DATA_PATH) as f:
     STUB_DATA = json.load(f)
 
-# Build a flat material lookup from all positionen across all orders
-# keyed by matnr — so /sap/material/<matnr> returns real stub data
+# Build a flat material lookup keyed by maktx (no matnr in JSON)
+# e.g. MATERIAL_INDEX["AC"] = {"maktx": "AC", "meins": "PCS"}
 MATERIAL_INDEX: dict = {}
 for order in STUB_DATA.values():
     for pos in order["sales_order"]["positionen"]:
-        matnr = pos["matnr"]
-        if matnr not in MATERIAL_INDEX:
-            MATERIAL_INDEX[matnr] = {
-                "matnr": matnr,
-                "maktx": pos["maktx"],
+        maktx = pos["maktx"]
+        if maktx not in MATERIAL_INDEX:
+            MATERIAL_INDEX[maktx] = {
+                "maktx": maktx,
                 "meins": pos["meins"],
             }
 
 
 @app.route('/sap/sales-order/<order_id>', methods=['GET'])
 def get_sales_order(order_id):
-    """Look up order by ID; return 404 if not found in stub data."""
+    """Look up order by ID; fallback to first order if not found."""
     if order_id in STUB_DATA:
         return jsonify(STUB_DATA[order_id]), 200
-    # Fallback: if order_id not in stub, return first order so testing always works
     first = next(iter(STUB_DATA.values()))
     return jsonify(first), 200
 
@@ -71,15 +69,18 @@ def get_customer(customer_id):
     }), 200
 
 
-@app.route('/sap/material/<material_id>', methods=['GET'])
-def get_material(material_id):
-    """Return material data from the stub index; fall back to a safe default."""
-    if material_id in MATERIAL_INDEX:
-        return jsonify(MATERIAL_INDEX[material_id]), 200
-    # Fallback — unknown matnr, still return a valid shape so Odoo doesn't crash
+@app.route('/sap/material/<path:material_name>', methods=['GET'])
+def get_material(material_name):
+    """
+    Return material data keyed by maktx (product display name).
+    Using <path:...> so names with spaces work after URL-decoding.
+    e.g. /sap/material/Installation Service
+    """
+    if material_name in MATERIAL_INDEX:
+        return jsonify(MATERIAL_INDEX[material_name]), 200
+    # Fallback — unknown name, return a safe default shape
     return jsonify({
-        "matnr": material_id,
-        "maktx": "Unknown Product",
+        "maktx": material_name,
         "meins": "PCS",
     }), 200
 
@@ -98,7 +99,7 @@ if __name__ == '__main__':
         print(f"  curl http://localhost:5000/sap/sales-order/{vbeln}")
     print("-" * 50)
     print("Available materials:")
-    for matnr, mat in MATERIAL_INDEX.items():
-        print(f"  curl http://localhost:5000/sap/material/{matnr}  -> {mat['maktx']}")
+    for maktx, mat in MATERIAL_INDEX.items():
+        print(f"  curl 'http://localhost:5000/sap/material/{maktx}'  -> {mat['meins']}")
     print("=" * 50)
     app.run(port=5000, debug=True)
